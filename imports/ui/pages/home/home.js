@@ -1,3 +1,11 @@
 import './home.html';
 
-import '../../components/hello/hello.js';
+
+Template.App_home.helpers({
+    userName() {
+        var user = Meteor.user();
+        if (user) {
+            return user.profile.name;
+        }
+    }
+})

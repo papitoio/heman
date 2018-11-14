@@ -21,7 +21,7 @@ Template.signup_Page.events({
             email: form.email.value,
             password: form.password.value,
             profile : {
-                name: form.fullName.value,
+                name: form.fullName.value.trim(),
                 terms: form.terms.checked
             }
         }
@@ -33,9 +33,31 @@ Template.signup_Page.events({
         // Nome de ser completo exemplo => João da Silva // var verifica = nome.includes(' ');
         // Senha não informada
 
+
         if (user.email.length == 0) {
             instance.alertMessage.set({ value: 'Email não foi informado.', color: 'blue' });
             form.email.focus();
+            return false;
+        }
+    
+
+        if (user.profile.name.length == 0) {
+            instance.alertMessage.set({ value: 'Nome não foi informado.', color: 'blue' });
+            form.fullName.focus();
+            return false;
+        }
+
+        let isFullName = /[A-z][ ][A-z]/.test(user.profile.name)
+
+        if (!isFullName) {
+            instance.alertMessage.set({ value: 'Informe o nome completo.', color: 'orange' });
+            form.fullName.focus();
+            return false;
+        }
+
+        if (user.password.length == 0) {
+            instance.alertMessage.set({ value: 'Senha não informada.', color: 'blue' });
+            form.password.focus();
             return false;
         }
 
@@ -59,7 +81,7 @@ Template.signup_Page.events({
                 return false;
             }
             instance.alertMessage.set(null);
-            alert('Usuário cadastrado')
+            FlowRouter.go('/');
         })
 
     }

@@ -1,6 +1,6 @@
 <template name="signup_Page">
 
-    <div class="ui container center aligned box boxSignup" style="margin-top: 100px;">
+    <div class="ui container center aligned box boxSignup">
         <div class="ui middle aligned center aligned grid">
             <div class="column">
                 <form id="signupForm" class="ui segment form">
@@ -12,7 +12,7 @@
                     <div class="ui hidden divider"></div>
 
                     {{#if alertMessage}}
-                        <div class="ui {{alertMessage.color}} message">{{alertMessage.value}}</div>
+                    <div class="alert ui message {{alertMessage.color}}">{{alertMessage.value}}</div>
                     {{/if}}
 
                     <div class="field">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <button id="signupButton" class="ui blue fluid button">Cadastre-se</button>
+                    <button id="signup" class="ui blue fluid button">Cadastre-se</button>
                 </form>
 
                 <div class="ui message">
