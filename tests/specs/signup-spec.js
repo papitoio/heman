@@ -3,6 +3,7 @@ const SignUpPage = require('../pages/signup-page')
 describe('Signup', () => {
 
     const signup_page = new SignUpPage();
+    const usersDb = require('../libs/users')
 
     beforeEach(()=> {
        signup_page.go()
@@ -34,17 +35,44 @@ describe('Signup', () => {
     })
 
     it('deve solicitar ao usuário para aceitar os termos de uso', () => {
-        signup_page.with('me@papito.io', 'Fernando Papito', 'abx123')
+        signup_page.with('me@papito.io', 'Fernando Papito', 'abx123', false)
         expect(signup_page.alert.getText()).toEqual('Você precisa aceitar os termos de uso.')
     })
 
-    it('deve cadastrar um usuário com sucesso', () => {
-        // Implementar
+    describe('quando um novo usuário é cadastrado', () => {
+
+        beforeEach(() => {
+            let email = 'eu@papito.io'
+            usersDb.deleteByEmail(email).then((res) => {
+                console.log(res);
+            })
+            signup_page.with(email, 'Fernando Papito', '123456', true)
+        })
+
+        it('deve ser redicionado para a home', () => {
+            container = element(by.css('.appHome'))
+            expect(container.getText()).toContain('Olá, Fernando Papito')
+        })
+    })
+
+    describe('quando um email já foi cadastrado', () => {
+
+        beforeEach(() => {
+            let email = 'duplicado@teste.com.br'
+            usersDb.deleteByEmail(email).then((res) => {
+                console.log(res);
+            })
+            signup_page.with(email, 'Fernando Duplicado', '123456', true)
+            signup_page.go()
+            signup_page.with(email, 'Fernando Duplicado', '123456', true)
+        })
+
+        it('deve informar que o mesmo já está cadastrado', () => {
+            expect(signup_page.alert.getText()).toEqual('Email already exists.')
+        })
     })
 
     afterEach(()=> {
-        browser.sleep(3000);
+        // browser.sleep(3000);
     })
-
-
 })

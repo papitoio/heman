@@ -26,21 +26,12 @@ Template.signup_Page.events({
             }
         }
 
-        // var nome = "João da Silva"
-        // nome.replace(/^\s+|\s+$/gm, '')
-
-        // Nome não informado
-        // Nome de ser completo exemplo => João da Silva // var verifica = nome.includes(' ');
-        // Senha não informada
-
-
         if (user.email.length == 0) {
             instance.alertMessage.set({ value: 'Email não foi informado.', color: 'blue' });
             form.email.focus();
             return false;
         }
     
-
         if (user.profile.name.length == 0) {
             instance.alertMessage.set({ value: 'Nome não foi informado.', color: 'blue' });
             form.fullName.focus();

@@ -10,12 +10,22 @@ import '../../ui/pages/links/links.js';
 import '../../ui/pages/not-found/not-found.js';
 
 // Set up all routes in the app
-FlowRouter.route('/', {
+
+var loggerdRoutes = FlowRouter.group({
+  prefix: '/',
+  name: 'home',
+  triggersEnter: [function (context, redirect){
+    if (!Meteor.userId()) {FlowRouter.go('/login')}
+  }]
+})
+
+loggerdRoutes.route('/', {
   name: 'App.home',
   action() {
     BlazeLayout.render('App_body', { main: 'App_home' });
   },
 });
+
 
 FlowRouter.route('/signup', {
   name: 'App.signup',
@@ -28,6 +38,15 @@ FlowRouter.route('/login', {
   name: 'App.login',
   action() {
     BlazeLayout.render('App_body', { main: 'login_Page' });
+  }
+})
+
+FlowRouter.route('/logout', {
+  name: 'logout',
+  action() {
+    Meteor.logout(() => {
+      FlowRouter.go('/login');
+    })
   }
 })
 

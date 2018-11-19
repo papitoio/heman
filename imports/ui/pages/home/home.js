@@ -1,11 +1,5 @@
 import './home.html';
 
+import '../../components/menu/menu.js'
+import '../../components/posts/posts.js'
 
-Template.App_home.helpers({
-    userName() {
-        var user = Meteor.user();
-        if (user) {
-            return user.profile.name;
-        }
-    }
-})
