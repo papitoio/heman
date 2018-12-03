@@ -8,6 +8,7 @@ pipeline {
                 }
             }
             steps {
+                sh "apk add --no-cache curl"
                 sh "curl https://install.meteor.com/ | sh"
                 sh "meteor"
                 input message: 'Finished using the web site?  (Click "Proceed" to continue)'
